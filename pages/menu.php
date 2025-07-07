@@ -86,113 +86,94 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
             <?php else: ?>
-                <div class="menu-grid">
+                <!-- Enhanced menu items grid - Dark Theme (like home.php categories) -->
+                <div class="menu-items-grid dark-theme">
                     <?php foreach ($menuItems as $item): ?>
-                        <!-- Enhanced Menu Item Card -->
-                        <div class="menu-item enhanced-menu-card"
+                        <!-- Enhanced menu item card - Dark Theme -->
+                        <div class="menu-item-card enhanced-item-card dark-card"
                              data-item-id="<?php echo $item['id']; ?>"
                              data-category="<?php echo $item['category']; ?>"
                              data-appetite-score="<?php echo $item['appetite_score'] ?? 5; ?>"
                              data-margin="<?php echo $item['margin_level'] ?? 'medium'; ?>">
 
+                            <!-- Featured Badge (if featured) -->
                             <?php if ($item['featured']): ?>
-                                <div class="featured-badge enhanced-featured-badge">⭐ Featured</div>
+                                <div class="featured-badge dark-badge">⭐ Featured</div>
                             <?php endif; ?>
 
-                            <!-- Enhanced Psychology Tags -->
-                            <div class="psychology-tags enhanced-tags">
-                                <?php
-                                $psychologyTags = generatePsychologyTags($item);
-                                $displayTags = array_slice($psychologyTags, 0, 2);
-                                foreach ($displayTags as $tag):
-                                    ?>
-                                    <span class="psychology-tag enhanced-tag <?php echo $tag['class']; ?>">
-                                        <?php echo $tag['text']; ?>
-                                    </span>
-                                <?php endforeach; ?>
-                            </div>
-
-                            <!-- Enhanced Urgency Indicators -->
+                            <!-- Psychology Tags (max 2) -->
                             <?php
-                            $urgencyLevel = calculateUrgencyLevel($item);
-                            if ($urgencyLevel !== 'low'):
+                            $psychologyTags = generatePsychologyTags($item);
+                            $displayTags = array_slice($psychologyTags, 0, 2);
+                            if (!empty($displayTags)):
                                 ?>
-                                <div class="urgency-indicator enhanced-urgency urgency-<?php echo $urgencyLevel; ?>">
-                                    <?php if (isset($item['limited_qty']) && $item['limited_qty']): ?>
-                                        ⚡ Only <?php echo $item['limited_qty']; ?> left!
-                                    <?php else: ?>
-                                        🔥 Popular Choice!
-                                    <?php endif; ?>
+                                <div class="psychology-tags dark-tags">
+                                    <?php foreach ($displayTags as $tag): ?>
+                                        <span class="psychology-tag dark-tag"><?php echo $tag['text']; ?></span>
+                                    <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
 
-                            <!-- Enhanced Image Container -->
-                            <div class="enhanced-image-wrapper">
-                                <img src="<?php echo $item['image_url'] ?: 'assets/images/default-food.jpg'; ?>"
-                                     alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                     class="menu-item-image enhanced-image">
-                                <div class="enhanced-image-overlay"></div>
+                            <!-- Item Image/Icon -->
+                            <div class="card-image">
+                                <?php if ($item['image_url']): ?>
+                                    <img src="<?php echo $item['image_url']; ?>"
+                                         alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                         class="item-image">
+                                <?php else: ?>
+                                    <div class="item-icon">🍽️</div>
+                                <?php endif; ?>
                             </div>
 
-                            <!-- Enhanced Content -->
-                            <div class="menu-item-content enhanced-content">
-                                <div class="menu-item-header enhanced-header">
-                                    <div class="header-info">
-                                        <h3 class="menu-item-title enhanced-title"><?php echo htmlspecialchars($item['name']); ?></h3>
+                            <!-- Enhanced content -->
+                            <div class="card-content">
+                                <h3 class="card-title"><?php echo htmlspecialchars($item['name']); ?></h3>
 
-                                        <!-- Enhanced Social Proof -->
-                                        <?php
-                                        $socialProof = generateSocialProof($item['id']);
-                                        if ($socialProof):
-                                            ?>
-                                            <div class="social-proof enhanced-social-proof social-proof-<?php echo $socialProof['level']; ?>">
-                                                <span class="social-proof-icon">👥</span>
-                                                <?php echo $socialProof['text']; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                    <span class="menu-item-price enhanced-price">$<?php echo number_format($item['price'], 2); ?></span>
-                                </div>
-
-                                <p class="menu-item-description enhanced-description">
+                                <p class="card-description">
                                     <?php echo enhanceDescription($item['description'], $item['sensory_words']); ?>
                                 </p>
 
-                                <div class="menu-item-meta enhanced-meta">
-                                    <span class="item-category enhanced-category"><?php echo $categories[$item['category']]['name'] ?? $item['category']; ?></span>
-                                    <?php if (!$item['available']): ?>
-                                        <span class="unavailable-badge enhanced-unavailable">Not Available</span>
-                                    <?php endif; ?>
+                                <div class="card-meta">
+                                    <span class="card-price">$<?php echo number_format($item['price'], 2); ?></span>
+                                    <span class="card-category"><?php echo $categories[$item['category']]['name'] ?? $item['category']; ?></span>
                                 </div>
 
-                                <!-- Enhanced Actions -->
-                                <div class="menu-item-actions enhanced-actions">
-                                    <?php if ($item['available']): ?>
-                                        <button class="btn-add-to-cart enhanced-add-btn" data-item-id="<?php echo $item['id']; ?>">
-                                            <span class="btn-icon">🛒</span>
-                                            <span class="btn-text">Add to Cart</span>
-                                        </button>
-                                    <?php else: ?>
-                                        <button class="btn-unavailable enhanced-unavailable-btn" disabled>
-                                            <span class="btn-text">Not Available</span>
-                                        </button>
-                                    <?php endif; ?>
-
-                                    <button class="btn-favorite enhanced-favorite" data-item-id="<?php echo $item['id']; ?>">
-                                        🤍
-                                    </button>
-                                </div>
+                                <!-- Social Proof (if available) -->
+                                <?php
+                                $socialProof = generateSocialProof($item['id']);
+                                if ($socialProof):
+                                    ?>
+                                    <div class="social-proof dark-social">
+                                        <span class="social-proof-icon">👥</span>
+                                        <?php echo $socialProof['text']; ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
 
-                            <!-- Enhanced Hover Effect -->
-                            <div class="enhanced-card-hover-effect"></div>
+                            <!-- Action buttons -->
+                            <div class="card-actions">
+                                <?php if ($item['available']): ?>
+                                    <button class="btn-add-to-cart dark-btn" data-item-id="<?php echo $item['id']; ?>">
+                                        <span class="btn-icon">🛒</span>
+                                        <span class="btn-text">Add to Cart</span>
+                                    </button>
+                                    <button class="btn-favorite dark-fav" data-item-id="<?php echo $item['id']; ?>">
+                                        🤍
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn-unavailable dark-btn" disabled>
+                                        <span class="btn-text">Not Available</span>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Hover effect -->
+                            <div class="card-hover-effect"></div>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-        </div>
-
-        <!-- Results Info -->
+        </div>        <!-- Results Info -->
         <?php if (!empty($menuItems)): ?>
             <div class="results-info">
                 <p>Showing <?php echo count($menuItems); ?> items
@@ -235,6 +216,618 @@ if (isset($_SESSION['user_id'])) {
 </section>
 
 <style>
+
+    /* Dark Theme Menu Items Grid - BALANCED VERSION */
+    .menu-items-grid.dark-theme {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+
+    .menu-item-card.dark-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 0 solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgb(30, 31, 34);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        color: #ffffff;
+        backdrop-filter: blur(15px);
+        display: flex;
+        flex-direction: column;
+        min-height: 480px;
+    }
+
+    /* KEEP the nice hover animation */
+    .menu-item-card.dark-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow:
+                0 20px 60px rgba(231, 76, 60, 0.3),    /* Red */
+                0 25px 70px rgba(243, 156, 18, 0.2),   /* Orange */
+                0 30px 80px rgba(39, 174, 96, 0.15),   /* Green */
+                0 35px 90px rgba(52, 152, 219, 0.1);   /* Blue */
+        border-color: rgba(231, 76, 60, 0.5);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* KEEP the top gradient border */
+    .menu-item-card.dark-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 2;
+    }
+
+    .menu-item-card.dark-card:hover::before {
+        opacity: 1;
+    }
+
+    /* Simple Featured Badge */
+    .featured-badge.dark-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 3;
+    }
+
+
+    /* Psychology Tags - POSITIONED TO AVOID IMAGE CONTENT */
+    .psychology-tags.dark-tags {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        right: 4rem; /* Leave space for Featured badge */
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        z-index: 3;
+    }
+    .psychology-tag.dark-tag {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        padding: 0.3rem 0.7rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        align-self: flex-start;
+        max-width: fit-content; /* Only as wide as needed */
+    }
+
+    /* Simple Card Image */
+    .card-image {
+        height: 200px;
+        margin-bottom: 1.5rem;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-item-card:hover .item-image {
+        transform: scale(1.05);
+    }
+
+    .item-icon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        background: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+    }
+
+    /* Simple Content - ONE LINE DESCRIPTIONS */
+    .dark-card .card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        font-family: 'Inter', sans-serif;
+        line-height: 1.3;
+    }
+
+    .dark-card .card-description {
+        font-size: 0.9rem;
+        color: #d0d0d0;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+        flex-grow: 1;
+        font-weight: 600;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.8rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #e74c3c;
+    }
+
+    .card-category {
+        background: rgba(255, 255, 255, 0.1);
+        color: #b0b0b0;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    /* Simple Social Proof */
+    .social-proof.dark-social {
+        font-size: 0.8rem;
+        color: #b0b0b0;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        /* Ensure only one line */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Simple Action Buttons */
+    .card-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .btn-add-to-cart.dark-btn {
+        flex: 1;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        padding: 0.8rem 1rem;
+        border-radius: 15px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-add-to-cart.dark-btn:hover {
+        background: linear-gradient(135deg, #c0392b, #a93226);
+        transform: translateY(-2px);
+    }
+
+    .btn-unavailable.dark-btn {
+        flex: 1;
+        background: #555;
+        color: white;
+        border: none;
+        padding: 0.8rem 1rem;
+        border-radius: 15px;
+        cursor: not-allowed;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .btn-favorite.dark-fav {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-favorite.dark-fav:hover {
+        background: rgba(231, 76, 60, 0.2);
+        transform: scale(1.1);
+    }
+
+    /* KEEP the nice hover effect */
+    .dark-card .card-hover-effect {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .dark-card:hover .card-hover-effect {
+        transform: scaleX(1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .menu-items-grid.dark-theme {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .menu-item-card.dark-card {
+            min-height: 480px;
+            padding: 1.25rem;
+        }
+
+        .card-image {
+            height: 180px;
+        }
+    }
+
+    /* UNIFIED MENU CARD STYLES - Same look for all cards */
+
+    /* Base Menu Card - Unified styling for ALL cards */
+    .menu-item.enhanced-menu-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        height: 520px;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(15px);
+    }
+
+    /* UPDATED: */
+    .menu-item.enhanced-menu-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(231, 76, 60, 0.5);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Unified Top Border - Same for ALL cards */
+    .menu-item.enhanced-menu-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 2;
+    }
+
+    .menu-item.enhanced-menu-card:hover::before {
+        opacity: 1;
+    }
+
+    /* Unified Featured Badge - Same styling for all featured items */
+    .enhanced-menu-card .featured-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 3;
+        box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+    }
+
+    /* UNIFIED Psychology Tags - Same styling for ALL tags */
+    .enhanced-menu-card .psychology-tags {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        z-index: 3;
+        max-width: 60%;
+    }
+
+    .enhanced-menu-card .psychology-tag,
+    .enhanced-menu-card .unified-tag {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        backdrop-filter: blur(10px);
+    }
+
+    /* UNIFIED Urgency Indicators - Same styling for ALL urgency indicators */
+    .enhanced-menu-card .urgency-indicator,
+    .enhanced-menu-card .unified-urgency {
+        position: absolute;
+        top: 4rem;
+        left: 1rem;
+        background: linear-gradient(135deg, #ff6b35, #e74c3c);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        z-index: 3;
+        box-shadow: 0 3px 12px rgba(255, 107, 53, 0.5);
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Unified Image Styling */
+    .enhanced-menu-card .enhanced-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 220px;
+    }
+
+    .enhanced-menu-card .menu-item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .enhanced-menu-card:hover .menu-item-image {
+        transform: scale(1.1);
+    }
+
+    .enhanced-menu-card .enhanced-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(231, 76, 60, 0.1));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+
+    .enhanced-menu-card:hover .enhanced-image-overlay {
+        opacity: 1;
+    }
+
+    /* Unified Content Styling */
+    .enhanced-menu-card .menu-item-content {
+        padding: 1.75rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 2;
+    }
+
+    .enhanced-menu-card .menu-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .enhanced-menu-card .menu-item-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        font-family: 'Inter', sans-serif;
+        line-height: 1.3;
+        transition: color 0.3s ease;
+    }
+
+    .enhanced-menu-card:hover .menu-item-title {
+        color: #e74c3c;
+    }
+
+    .enhanced-menu-card .social-proof {
+        font-size: 0.8rem;
+        color: #b0b0b0;
+        margin-top: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: 500;
+    }
+
+    .enhanced-menu-card .menu-item-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #e74c3c;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #e74c3c, #f39c12);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .enhanced-menu-card .menu-item-description {
+        color: #d0d0d0;
+        line-height: 1.6;
+        margin-bottom: auto;
+        font-weight: 400;
+        font-size: 0.95rem;
+    }
+
+    .enhanced-menu-card .sensory-word {
+        color: #e74c3c;
+        font-weight: 600;
+        background: rgba(231, 76, 60, 0.1);
+        padding: 0.1rem 0.3rem;
+        border-radius: 4px;
+    }
+
+    /* Unified Meta Styling */
+    .enhanced-menu-card .menu-item-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1.25rem 0;
+        font-size: 0.85rem;
+    }
+
+    .enhanced-menu-card .item-category {
+        color: #b0b0b0;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .enhanced-menu-card .unavailable-badge {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* Unified Action Buttons */
+    .enhanced-menu-card .menu-item-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .enhanced-menu-card .btn-add-to-cart {
+        flex: 1;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        padding: 1rem 1.25rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+    }
+
+    .enhanced-menu-card .btn-add-to-cart:hover {
+        background: linear-gradient(135deg, #c0392b, #a93226);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+    }
+
+    .enhanced-menu-card .btn-unavailable {
+        flex: 1;
+        background: #555;
+        color: white;
+        border: none;
+        padding: 1rem 1.25rem;
+        border-radius: 20px;
+        cursor: not-allowed;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .enhanced-menu-card .btn-favorite {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.3rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        padding: 0;
+        backdrop-filter: blur(10px);
+    }
+
+    .enhanced-menu-card .btn-favorite:hover,
+    .enhanced-menu-card .btn-favorite.favorited {
+        border-color: #e74c3c;
+        background: rgba(231, 76, 60, 0.2);
+        transform: scale(1.1);
+    }
+
+    /* Unified Hover Effect Animation */
+    .enhanced-menu-card .enhanced-card-hover-effect {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.1), transparent);
+        transition: left 0.8s ease;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .enhanced-menu-card:hover .enhanced-card-hover-effect {
+        left: 100%;
+    }
+
+    /* REMOVE ALL CONDITIONAL STYLING */
+    /* Remove high-margin specific styling */
+    .menu-item.enhanced-menu-card.high-margin,
+    .enhanced-menu-card.high-margin {
+        border-left: none !important;
+    }
+
+
+
     /* Enhanced Menu Page Styles - Dark Theme with New Layout */
     .menu-page {
         padding: 2rem 0;
@@ -418,12 +1011,7 @@ if (isset($_SESSION['user_id'])) {
         backdrop-filter: blur(15px);
     }
 
-    .menu-item.enhanced-menu-card:hover {
-        transform: translateY(-12px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        border-color: rgba(231, 76, 60, 0.5);
-        background: rgba(255, 255, 255, 0.08);
-    }
+
 
     /* Top gradient border on hover */
     .menu-item.enhanced-menu-card::before {
@@ -438,11 +1026,6 @@ if (isset($_SESSION['user_id'])) {
         transition: opacity 0.4s ease;
         z-index: 2;
     }
-
-    .menu-item.enhanced-menu-card:hover::before {
-        opacity: 1;
-    }
-
     /* Enhanced Featured Badge */
     .enhanced-menu-card .featured-badge {
         position: absolute;
@@ -525,9 +1108,7 @@ if (isset($_SESSION['user_id'])) {
         transition: transform 0.4s ease;
     }
 
-    .enhanced-menu-card:hover .menu-item-image {
-        transform: scale(1.1);
-    }
+
 
     .enhanced-menu-card .enhanced-image-overlay {
         position: absolute;
@@ -541,9 +1122,7 @@ if (isset($_SESSION['user_id'])) {
         pointer-events: none;
     }
 
-    .enhanced-menu-card:hover .enhanced-image-overlay {
-        opacity: 1;
-    }
+
 
     /* Enhanced Content Styling - Dark Theme */
     .enhanced-menu-card .menu-item-content {
@@ -573,9 +1152,7 @@ if (isset($_SESSION['user_id'])) {
         transition: color 0.3s ease;
     }
 
-    .enhanced-menu-card:hover .menu-item-title {
-        color: #e74c3c;
-    }
+
 
     .enhanced-menu-card .social-proof {
         font-size: 0.8rem;
@@ -723,9 +1300,7 @@ if (isset($_SESSION['user_id'])) {
         z-index: 1;
     }
 
-    .enhanced-menu-card:hover .enhanced-card-hover-effect {
-        left: 100%;
-    }
+
 
     /* Results Info Styling - Dark Theme */
     .results-info {
