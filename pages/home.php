@@ -158,7 +158,7 @@ if (isset($_SESSION['user_id'])) {
             <!-- Enhanced section header - Exact same classes as trending -->
             <div class="section-header trending-header">
                 <h2 class="section-title trending-title">
-                    <span class="title-icon trending-icon">🎯</span>
+                    <span class="title-icon trending-icon"></span>
                     Just for You
                 </h2>
                 <p class="section-subtitle trending-subtitle">
@@ -227,7 +227,7 @@ if (isset($_SESSION['user_id'])) {
             <!-- Enhanced section header -->
             <div class="section-header trending-header">
                 <h2 class="section-title trending-title">
-                    <span class="title-icon trending-icon">📈</span>
+                    <span class="title-icon trending-icon"></span>
                     Trending This Week
                 </h2>
                 <p class="section-subtitle trending-subtitle">
@@ -285,7 +285,7 @@ if (isset($_SESSION['user_id'])) {
         <!-- Enhanced section header -->
         <div class="section-header featured-header">
             <h2 class="section-title featured-title">
-                <span class="title-icon featured-icon">⭐</span>
+                <span class="title-icon featured-icon"></span>
                 Chef's Specials
             </h2>
             <p class="section-subtitle featured-subtitle">
@@ -917,7 +917,413 @@ if (isset($_SESSION['user_id'])) {
             padding: 1.5rem;
         }
     }
+    /* ===================================================================
+       UNIFIED STYLING FOR ALL FOOD SECTIONS - CHEF'S SPECIALS DESIGN
+       =================================================================== */
 
+    /* Make ALL sections look like Chef's Specials */
+    .trending-section.enhanced-trending,
+    .featured-section.enhanced-featured {
+        padding: 4rem 0;
+        background: transparent;
+    }
+
+    .trending-section.enhanced-trending .container,
+    .featured-section.enhanced-featured .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    /* Unified section headers */
+    .trending-section.enhanced-trending .section-header.trending-header,
+    .featured-section.enhanced-featured .section-header.featured-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .trending-section.enhanced-trending .section-title.trending-title,
+    .featured-section.enhanced-featured .section-title.featured-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #e74c3c, #f39c12);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .trending-section.enhanced-trending .section-subtitle.trending-subtitle,
+    .featured-section.enhanced-featured .section-subtitle.featured-subtitle {
+        font-size: 1.1rem;
+        color: #6D4C41;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    /* Unified grid layouts */
+    .trending-section.enhanced-trending .trending-grid.enhanced-trending-grid,
+    .featured-section.enhanced-featured .featured-showcase.enhanced-featured-showcase {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Unified card styling */
+    .trending-section.enhanced-trending .trending-item.enhanced-trending-item,
+    .featured-section.enhanced-featured .featured-card.enhanced-featured-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.12);
+        border: 2px solid rgba(255, 107, 53, 0.1);
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+    }
+
+    .trending-section.enhanced-trending .trending-item.enhanced-trending-item:hover,
+    .featured-section.enhanced-featured .featured-card.enhanced-featured-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(231, 76, 60, 0.2);
+        border-color: rgba(231, 76, 60, 0.25);
+    }
+
+    /* Unified image containers */
+    .trending-section.enhanced-trending .trending-image-container,
+    .featured-section.enhanced-featured .featured-image-container.enhanced-image-container {
+        height: 240px;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .trending-section.enhanced-trending .trending-image.enhanced-trending-image,
+    .featured-section.enhanced-featured .featured-image.enhanced-featured-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .trending-section.enhanced-trending .trending-item.enhanced-trending-item:hover .trending-image.enhanced-trending-image,
+    .featured-section.enhanced-featured .featured-card.enhanced-featured-card:hover .featured-image.enhanced-featured-image {
+        transform: scale(1.05);
+    }
+
+    /* Unified badges/overlays */
+    .trending-section.enhanced-trending .trending-rank.enhanced-rank,
+    .featured-section.enhanced-featured .featured-overlay.enhanced-featured-overlay {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .trending-section.enhanced-trending .rank-number.enhanced-rank-number,
+    .featured-section.enhanced-featured .featured-badge.enhanced-chef-badge {
+        background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(142, 68, 173, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        animation: chefBadgeGlow 3s ease-in-out infinite alternate;
+    }
+
+    .trending-section.enhanced-trending .rank-badge.enhanced-rank-badge,
+    .featured-section.enhanced-featured .enhanced-badge-icon {
+        font-size: 1rem;
+    }
+
+    /* Unified overlays */
+    .trending-section.enhanced-trending .trending-overlay.enhanced-trending-overlay,
+    .featured-section.enhanced-featured .featured-overlay.enhanced-featured-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(231, 76, 60, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .trending-section.enhanced-trending .trending-item.enhanced-trending-item:hover .trending-overlay.enhanced-trending-overlay,
+    .featured-section.enhanced-featured .featured-card.enhanced-featured-card:hover .featured-overlay.enhanced-featured-overlay {
+        opacity: 1;
+    }
+
+    /* Unified content areas */
+    .trending-section.enhanced-trending .trending-content.enhanced-trending-content,
+    .featured-section.enhanced-featured .featured-content.enhanced-featured-content {
+        padding: 2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .trending-section.enhanced-trending .trending-title.enhanced-trending-title,
+    .featured-section.enhanced-featured .featured-title.enhanced-featured-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #2C1810;
+        margin-bottom: 1rem;
+        font-family: 'Inter', sans-serif;
+        line-height: 1.3;
+        transition: color 0.3s ease;
+    }
+
+    .trending-section.enhanced-trending .trending-item.enhanced-trending-item:hover .trending-title.enhanced-trending-title,
+    .featured-section.enhanced-featured .featured-card.enhanced-featured-card:hover .featured-title.enhanced-featured-title {
+        color: #E74C3C;
+    }
+
+    .trending-section.enhanced-trending .trend-score.enhanced-trend-score,
+    .featured-section.enhanced-featured .featured-description.enhanced-featured-description {
+        font-size: 1rem;
+        color: #6D4C41;
+        line-height: 1.6;
+        margin-bottom: auto;
+        font-weight: 400;
+    }
+
+    /* Unified pricing */
+    .trending-section.enhanced-trending .trending-price.enhanced-trending-price,
+    .featured-section.enhanced-featured .featured-price.enhanced-featured-price {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #E74C3C;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Unified buttons */
+    .trending-section.enhanced-trending .btn-quick-add.enhanced-quick-add,
+    .featured-section.enhanced-featured .btn-featured-order.enhanced-order-btn {
+        background: linear-gradient(135deg, #E74C3C 0%, #FF6B35 100%);
+        color: white;
+        border: none;
+        padding: 1rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+        flex-shrink: 0;
+        margin-top: auto;
+    }
+
+    .trending-section.enhanced-trending .btn-quick-add.enhanced-quick-add:hover,
+    .featured-section.enhanced-featured .btn-featured-order.enhanced-order-btn:hover {
+        background: linear-gradient(135deg, #DC143C 0%, #E74C3C 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+    }
+
+    /* ===================================================================
+       UNIFIED MOBILE RESPONSIVE - ALL SECTIONS
+       =================================================================== */
+
+    @media (max-width: 768px) {
+        .trending-section.enhanced-trending,
+        .featured-section.enhanced-featured {
+            padding: 2.5rem 0;
+        }
+
+        .trending-section.enhanced-trending .section-title.trending-title,
+        .featured-section.enhanced-featured .section-title.featured-title {
+            font-size: 2.2rem;
+        }
+
+        .trending-section.enhanced-trending .trending-grid.enhanced-trending-grid,
+        .featured-section.enhanced-featured .featured-showcase.enhanced-featured-showcase {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .trending-section.enhanced-trending .trending-item.enhanced-trending-item,
+        .featured-section.enhanced-featured .featured-card.enhanced-featured-card {
+            height: 460px;
+        }
+
+        .trending-section.enhanced-trending .trending-image-container,
+        .featured-section.enhanced-featured .featured-image-container.enhanced-image-container {
+            height: 220px;
+        }
+
+        .trending-section.enhanced-trending .trending-content.enhanced-trending-content,
+        .featured-section.enhanced-featured .featured-content.enhanced-featured-content {
+            padding: 1.8rem;
+        }
+
+        .trending-section.enhanced-trending .btn-quick-add.enhanced-quick-add,
+        .featured-section.enhanced-featured .btn-featured-order.enhanced-order-btn {
+            width: 100%;
+        }
+
+        .featured-section.enhanced-featured .featured-footer.enhanced-featured-footer {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .trending-section.enhanced-trending .trending-content.enhanced-trending-content,
+        .featured-section.enhanced-featured .featured-content.enhanced-featured-content {
+            padding: 1.5rem;
+        }
+
+        .trending-section.enhanced-trending .trending-item.enhanced-trending-item,
+        .featured-section.enhanced-featured .featured-card.enhanced-featured-card {
+            height: 440px;
+        }
+
+        .trending-section.enhanced-trending .trending-image-container,
+        .featured-section.enhanced-featured .featured-image-container.enhanced-image-container {
+            height: 200px;
+        }
+
+        .trending-section.enhanced-trending .trending-title.enhanced-trending-title,
+        .featured-section.enhanced-featured .featured-title.enhanced-featured-title {
+            font-size: 1.2rem;
+        }
+
+        .trending-section.enhanced-trending .trending-price.enhanced-trending-price,
+        .featured-section.enhanced-featured .featured-price.enhanced-featured-price {
+            font-size: 1.4rem;
+        }
+    }
+
+    @keyframes chefBadgeGlow {
+        0% { box-shadow: 0 3px 10px rgba(142, 68, 173, 0.3); }
+        100% { box-shadow: 0 5px 15px rgba(142, 68, 173, 0.5); }
+    }
+    /* ===================================================================
+       CHEF'S SPECIALS SECTION ONLY - KEEP ORIGINAL PERFECT STYLING
+       =================================================================== */
+
+    /* Chef's Specials mobile responsive */
+    @media (max-width: 768px) {
+        .featured-section.enhanced-featured {
+            padding: 2rem 0;
+        }
+
+        .featured-section.enhanced-featured .section-title.featured-title {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .featured-section.enhanced-featured .section-subtitle.featured-subtitle {
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .featured-section.enhanced-featured .featured-showcase.enhanced-featured-showcase {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .featured-section.enhanced-featured .featured-card.enhanced-featured-card {
+            max-width: 100%;
+            margin: 0 auto;
+            height: auto;
+            min-height: 450px;
+        }
+
+        .featured-section.enhanced-featured .featured-image-container.enhanced-image-container {
+            height: 200px;
+        }
+
+        .featured-section.enhanced-featured .featured-content.enhanced-featured-content {
+            padding: 1.5rem;
+        }
+
+        .featured-section.enhanced-featured .featured-title.enhanced-featured-title {
+            font-size: 1.2rem;
+        }
+
+        .featured-section.enhanced-featured .featured-price.enhanced-featured-price {
+            font-size: 1.4rem;
+        }
+
+        .featured-section.enhanced-featured .btn-featured-order.enhanced-order-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            min-height: 48px;
+        }
+
+        .featured-section.enhanced-featured .featured-footer.enhanced-featured-footer {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .featured-section.enhanced-featured {
+            padding: 1.5rem 0;
+        }
+
+        .featured-section.enhanced-featured .section-title.featured-title {
+            font-size: 1.8rem;
+        }
+
+        .featured-section.enhanced-featured .section-subtitle.featured-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .featured-section.enhanced-featured .featured-showcase.enhanced-featured-showcase {
+            gap: 1.25rem;
+            padding: 0 0.75rem;
+        }
+
+        .featured-section.enhanced-featured .featured-card.enhanced-featured-card {
+            min-height: 420px;
+        }
+
+        .featured-section.enhanced-featured .featured-image-container.enhanced-image-container {
+            height: 180px;
+        }
+
+        .featured-section.enhanced-featured .featured-content.enhanced-featured-content {
+            padding: 1.25rem;
+        }
+
+        .featured-section.enhanced-featured .featured-title.enhanced-featured-title {
+            font-size: 1.1rem;
+        }
+
+        .featured-section.enhanced-featured .featured-price.enhanced-featured-price {
+            font-size: 1.3rem;
+        }
+
+        .featured-section.enhanced-featured .btn-featured-order.enhanced-order-btn {
+            padding: 0.9rem;
+            font-size: 0.95rem;
+            min-height: 46px;
+        }
+    }
 </style>
 <script>
     // Clean JavaScript - Works with PHP-generated content
